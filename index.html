@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Website Bank Sampah - Mengelola Sampah untuk Lingkungan Lebih Bersih">
+    <title>Bank Sampah</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    
+    <style>
+        /* Mengatur style untuk navigasi */
+        .navbar {
+            background-color: #4CAF50; /* Warna latar belakang navbar hijau */
+            padding: 10px;
+            text-align: center;
+        }
+
+        .navbar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin: 0 20px;
+        }
+
+        .navbar a {
+            color: white; /* Warna teks menu */
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .navbar a:hover {
+            color: #ff9800; /* Warna teks saat hover */
+        }
+
+        /* Mengatur bagian konten untuk menyembunyikan dan menampilkan konten */
+        .content-section {
+            display: none; /* Semua konten tersembunyi secara default */
+            padding: 20px;
+        }
+
+        .active {
+            display: block; /* Hanya bagian yang dipilih yang ditampilkan */
+        }
+
+        /* Mengatur Hero Section */
+        #home {
+            text-align: center;
+            padding: 50px;
+            background-color: #e0e0e0; /* Warna latar belakang hero */
+        }
+
+        #home h1 {
+            font-size: 3rem;
+            margin: 0;
+            color: #333; /* Warna teks judul */
+        }
+
+        #home p {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #666; /* Warna teks deskripsi */
+        }
+
+        .cta-button {
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Warna latar belakang tombol hijau */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .cta-button:hover {
+            background-color: #388e3c; /* Warna latar belakang tombol saat hover */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #4CAF50; /* Warna latar belakang footer hijau */
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        #map {
+            height: 400px; /* Menentukan tinggi peta */
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Beranda</a></li>
+            <li><a href="#" onclick="showSection('about')">Tentang Kami</a></li>
+            <li><a href="#" onclick="showSection('services')">Layanan</a></li>
+            <li><a href="#" onclick="showSection('locations')">Lokasi</a></li>
+            <li><a href="#" onclick="showSection('contact')">Kontak</a></li>
+        </ul>
+    </nav>
+
+    <!-- Content Section -->
+    <div id="home" class="content-section active">
+        <h1>Selamat Datang di Bank Sampah</h1>
+        
+        <a href="#about" class="cta-button">Solusi Pengelolaan Sampah untuk Lingkungan Lebih Bersih</a>
+    </div>
+
+    <div id="about" class="content-section">
+        <h2>Tentang Kami</h2>
+        <p>Bank Sampah adalah sebuah inisiatif yang berfokus pada pengelolaan sampah dengan cara yang lebih berkelanjutan dan ramah lingkungan. Program ini bertujuan untuk mengurangi jumlah sampah yang dibuang ke tempat pembuangan akhir (TPA), meningkatkan tingkat daur ulang, serta menciptakan nilai ekonomi bagi masyarakat yang terlibat. Di dalam Bank Sampah, masyarakat dapat mengumpulkan sampah yang dapat didaur ulang, seperti plastik, kertas, kaca, dan logam, untuk dipilah dan diproses lebih lanjut.</p>
+        <p>Melalui program ini, masyarakat dapat memisahkan sampah rumah tangga mereka berdasarkan jenisnya, seperti sampah organik dan anorganik. Sampah yang dapat didaur ulang akan diproses lebih lanjut, sementara sampah organik dapat diubah menjadi kompos. Selain itu, Bank Sampah memberikan peluang ekonomi bagi masyarakat yang berpartisipasi, karena sampah yang dikumpulkan dapat dijual dan ditukar dengan uang atau barang. Program ini juga berperan penting dalam mendidik masyarakat untuk lebih peduli terhadap pengelolaan sampah dan lingkungan.</p>
+    </div>
+
+    <div id="services" class="content-section">
+        <h2>Layanan Kami</h2>
+        <ul>
+            <li>Menerima sampah yang bisa didaur ulang</li>
+            <li>Penyuluhan dan edukasi pengelolaan sampah</li>
+            <li>Penukaran sampah dengan imbalan</li>
+        </ul>
+    </div>
+
+    <div id="locations" class="content-section">
+        <h2>Lokasi Bank Sampah</h2>
+        <div id="map" style="height: 400px; width: 100%;"></div>
+        <p>Temukan bank sampah terdekat di daerah Anda.</p>
+    </div>
+
+    <div id="contact" class="content-section">
+        <h2>Kontak Kami</h2>
+        <form action="http://localhost:3000/submit-contact" method="POST">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="nama" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Pesan:</label>
+            <textarea id="message" name="pesan" required></textarea>
+            <button type="submit">Kirim</button>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Bank Sampah. Semua hak cipta dilindungi.</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Menyembunyikan semua section
+            var sections = document.querySelectorAll('.content-section');
+            sections.forEach(function(section) {
+                section.classList.remove('active');
+            });
+
+            // Menampilkan section yang dipilih
+            var selectedSection = document.getElementById(sectionId);
+            selectedSection.classList.add('active');
+        }
+
+        // Secara default, tampilkan Beranda saat halaman pertama dimuat
+        window.onload = function() {
+            showSection('home');
+        };
+    </script>
+
+<script>
+    // Inisialisasi peta
+    var map = L.map('map').setView([ -6.2088, 106.8456 ], 13);
+
+// Menambahkan layer peta dari OpenStreetMap
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+    // Lokasi Bank Sampah
+    var lokasiBankSampah = [
+        { lat: -6.2115, lng: 106.8450, nama: "Bank Sampah A" },
+        { lat: -6.2190, lng: 106.8440, nama: "Bank Sampah B" },
+        { lat: -6.2010, lng: 106.8490, nama: "Bank Sampah C" }
+    ];
+
+    // Menambahkan marker untuk setiap lokasi
+    lokasiBankSampah.forEach(function(location) {
+        var marker = L.marker([location.lat, location.lng]).addTo(map);
+        marker.bindPopup('<b>' + location.nama + '</b><br>Lokasi Bank Sampah.');
+    });
+</script>
+
+
+</body>
+</html>
